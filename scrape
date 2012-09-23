@@ -1,0 +1,286 @@
+#!/usr/bin/env python
+"""
+Scrapes and dumps user's data given the credentials given at the start of the
+script.
+"""
+import requests
+import lxml.html
+import getpass
+import json
+import datetime
+
+
+PATHS = {
+    'login': 'https://nhseportfolios.org/Anon/Login/Login.aspx',
+    'home': 'https://nhseportfolios.org/Auth/SitePages/Trainee/Default.aspx',
+    'summary': 'https://nhseportfolios.org/Auth/SitePages/Trainee/Forms/Summary.aspx',
+    'dops': 'https://nhseportfolios.org/Auth/SitePages/Trainee/Forms/Forms.aspx?PageTypeDisplayed=PhysicianAssessmentDOPS',
+}
+
+DOPS = {
+    'title': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/h2[@class='fs_heading']/span[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_lblHeaderTitle']",
+    'date': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[@class='fs_Seperator'][1]/table/tr/td[2]/div/span[@class='fs_TimeToLabelReadOnly']",
+    'trainee_surname': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[@class='fs_Seperator'][2]/table/tr[1]/td[2]/span[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_ctl00_ucDOPSHeader_dynamicAutofill_TraineeSurname']",
+    'trainee_forename': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[@class='fs_Seperator'][2]/table/tr[2]/td[2]/span[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_ctl00_ucDOPSHeader_dynamicAutofill_TraineeForename']",
+    'trainee_gmc_number': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[@class='fs_Seperator'][2]/table/tr[3]/td[2]/span[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_ctl00_ucDOPSHeader_dynamicAutofill_TraineeGMCNumber']",
+    'trainee_year': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[@class='fs_Seperator'][2]/table/tr[4]/td[2]/div/span[@class='fs_TextboxToLabelReadOnly']",
+    'assessor_name': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[@class='fs_Seperator'][3]/table/tr[1]/td[2]/div/span[@class='fs_TextboxToLabelReadOnly']",
+    'assessor_email': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[@class='fs_Seperator'][3]/table/tr[2]/td[2]/div/span[@class='fs_TextboxToLabelReadOnly']",
+    'assessor_registration_number': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[@class='fs_Seperator'][3]/table/tr[3]/td[2]/div/span[@class='fs_TextboxToLabelReadOnly']",
+    'assessor_position': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[@class='fs_Seperator'][3]/table/tr[4]/td[2]/div/span[@class='fs_DropDownListToLabelReadOnly']",
+    'grades': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[@class='fs_Seperator'][4]/table",
+    'grades2': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[@class='fs_Seperator'][5]/table",
+    'comments': {
+        'done_well': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[@class='fs_Seperator'][5]/table[2]/tr/td/div/span[@class='fs_TextboxToLabelReadOnly']",
+        'suggestions': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[@class='fs_Seperator'][6]/table[2]//tr/td/div/span[@class='fs_TextboxToLabelReadOnly']",
+        'agreed_action': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[@class='fs_Seperator'][7]/table[2]/tr/td/div/span[@class='fs_TextboxToLabelReadOnly']",
+    },
+    'level_rating': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[9]/span[@class='fs_heading'][2]/table[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_ctl00_ucDOPSFooter_nes_PracticeLevel']",
+    'links': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_assocHolder']/table[@class='data']"
+}
+
+
+def getCredentials():
+    """
+    Asks for user's credentials and returns a (username, password) tuple.
+    """
+    username = raw_input("Username: ").strip()
+    password = getpass.getpass("Password: ").strip()
+    return (username, password)
+
+
+def signIn(username, password):
+    """
+    Given the username and password of the user will return a correctly
+    configured requests.session object to use for subsequant requests.
+
+    This is a huge faff and I'm basically doing *everything* the same when
+    submitting the form back to the server.
+    """
+    # Grab the login page to get the form values we need.
+    raw = requests.get(PATHS['login'])
+    session_left_slice = raw.headers['set-cookie'].find('=') + 1
+    session_right_slice = raw.headers['set-cookie'].find(';')
+    session_id = raw.headers['set-cookie'][session_left_slice:session_right_slice]
+    html = lxml.html.fromstring(raw.text)
+    db_viewstate = html.cssselect("input#__DATABASE_VIEWSTATE")[0].value
+    ev_validation = html.cssselect("input#__EVENTVALIDATION")[0].value
+    # Create the form payload
+    username_key = 'ctl00$ContentPlaceHolderMain$ucUserLoginBox$ePortfolioLogin$UserName'
+    password_key = 'ctl00$ContentPlaceHolderMain$ucUserLoginBox$ePortfolioLogin$Password'
+    login_button = 'ctl00$ContentPlaceHolderMain$ucUserLoginBox$ePortfolioLogin$LoginButton'
+    form_payload = {
+        'ctl00_ScriptManager1_HiddenField': '',
+        '__LASTFOCUS': '',
+        '__EVENTTARGET': '',
+        '__EVENTARGUMENT': '',
+        '__DATABASE_VIEWSTATE': db_viewstate,
+        '__VIEWSTATE': '',
+        '__SCROLLPOSITIONX': '',
+        '__SCROLLPOSITIONY': '',
+        '__EVENTVALIDATION': ev_validation,
+        username_key: username,
+        password_key: password,
+        login_button: 'Please wait...',
+        'ctl00$ContentPlaceHolderMain$ucCodeLoginBox$txtLoginCode': ''
+    }
+    session = requests.session()
+    session.post(PATHS['login'], data = form_payload)
+    return session
+
+def getDOM(session, url):
+    """
+    Returns a DOM based view of the URL.
+    """
+    raw = session.get(url)
+    return lxml.html.fromstring(raw.text)
+
+def getDates(fragment):
+    """
+    Given a fragment containing two dates in brackets at the end of a
+    string will return the fragment without the dates and the two dates as
+    Date objects.
+    """
+    # Dates are always between the final brackets contained in a string.
+    left_slice = fragment.rfind('(') + 1
+    right_slice = fragment.rfind(')')
+    date_from, date_to = fragment[left_slice:right_slice].split(' to ')
+    new_frag = fragment[:left_slice-2]
+    date_template = '%d %b %Y'
+    from_date = datetime.datetime.strptime(date_from, date_template)
+    to_date = datetime.datetime.strptime(date_to, date_template)
+    return (new_frag, from_date, to_date)
+
+def getText(dom, xpath):
+    """
+    Given a DOM structure will use the xpath to reference an element and, if it
+    exists, return the text contained therein.
+    """
+    matches = dom.xpath(xpath)
+    if len(matches) == 1:
+        text = matches[0].text.strip()
+        return text
+    else:
+        return None
+
+def getGrade(fragment):
+    """
+    Given a fragment of the DOM that represents the multiple choice fields
+    relating to various competencies. Returns the numeric value associated with
+    the checked radio-button.
+    """
+    if not fragment:
+        return None
+    radios = fragment.cssselect('input')
+    for radio in radios:
+        if 'checked' in radio.attrib:
+            return radio.attrib['value']
+
+
+def getAssessment(session, url):
+    """
+    Given a URL for a DOPS assessment grab the HTML and turn into a dict object
+    for all the fields on the form.
+    """
+    print "Getting assessment from %s" % url
+    assessment = getDOM(session, url)
+    result = {}
+    title = getText(assessment, DOPS['title'])
+    if title:
+        result['title'] = title
+    date = getText(assessment, DOPS['date'])
+    if date:
+        date_template = '%d/%m/%Y'
+        result['date'] = datetime.datetime.strptime(date, date_template).isoformat()
+    surname = getText(assessment, DOPS['trainee_surname'])
+    if surname:
+        result['trainee_surname'] = surname
+    forename = getText(assessment, DOPS['trainee_forename'])
+    if forename:
+        result['trainee_forename'] = forename
+    gmc_number = getText(assessment, DOPS['trainee_gmc_number'])
+    if gmc_number:
+        result['trainee_gmc_number'] = gmc_number
+    year = getText(assessment, DOPS['trainee_year'])
+    if year:
+        result['trainee_year'] = year
+    assessor_name = getText(assessment, DOPS['assessor_name'])
+    if assessor_name:
+        result['assessor_name'] = assessor_name
+    assessor_email = getText(assessment, DOPS['assessor_email'])
+    if assessor_email:
+        result['assessor_email'] = assessor_email
+    assessor_reg = getText(assessment, DOPS['assessor_registration_number'])
+    if assessor_reg:
+        result['assessor_registration_number'] = assessor_reg
+    position = getText(assessment, DOPS['assessor_position'])
+    if position:
+        result['assessor_position'] = position
+    comments = {}
+    done_well = getText(assessment, DOPS['comments']['done_well'])
+    if done_well:
+        comments['done_well'] = done_well
+    suggestions = getText(assessment, DOPS['comments']['suggestions'])
+    if suggestions:
+        comments['suggestions'] = suggestions
+    agreed = getText(assessment, DOPS['comments']['agreed_action'])
+    if agreed:
+        comments['agreed_action'] = agreed
+    result['comments'] = comments
+    grade_table = assessment.xpath(DOPS['grades'])
+    rows = [r for r in grade_table[0].getchildren() if r.tag == "tr"]
+    if len(rows) <= 2:
+        grade_table = assessment.xpath(DOPS['grades2'])
+        rows = [r for r in grade_table[0].getchildren() if r.tag == "tr"]
+    graded_areas = {}
+    procedure = ''
+    grade = None
+    import pdb; pdb.set_trace()
+    for row in rows:
+        proc_element = row.cssselect('span.fs_heading')
+        grade = getGrade(row)
+        if proc_element:
+            text = proc_element[0].text_content().strip()
+            if text:
+                procedure = ' '.join(text.replace('\r\n', '').split())
+            proc_element = []
+        if grade:
+            if grade and procedure:
+                graded_areas[k] = int(grade)
+            grade = None
+            procedure = ''
+    result['graded_areas'] = graded_areas
+    """
+    'level_rating': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[9]/span[@class='fs_heading'][2]/table[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_ctl00_ucDOPSFooter_nes_PracticeLevel']",
+    'links': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_assocHolder']/table[@class='data']"
+}"""
+    return result
+
+
+def getDOPS(session):
+    """
+    Gets all the DOPS assessments for a given user (identified by the session)
+    and returns a dict of jobs with associated lists of DOPS assessments
+    fulfilled therein.
+    """
+    result = []
+    dops_table = getDOM(session, PATHS['dops']).cssselect('table.data')[0]
+    current_job = {}
+    current_dops = []
+    for row in dops_table.getchildren():
+        if row.tag == 'tr':
+            children = row.getchildren()
+            if len(children) == 1:
+                # It's a job title
+                if 'class' in row.attrib:
+                    continue
+                if current_job:
+                    # Store away the old job and reset
+                    current_job['dops_assessments'] = current_dops
+                    result.append(current_job)
+                    current_job = {}
+                    current_dops = []
+                # get the new job's title
+                job_title = children[0].text_content().strip()
+                fields = job_title.split(' - ')
+                # This can be quite a mess
+                if len(fields) == 4:
+                    level, location, programme, speciality = fields
+                    speciality, from_date, to_date = getDates(speciality)
+                elif len(fields) == 3:
+                    level, location, programme = fields
+                    programme, from_date, to_date = getDates(programme)
+                    speciality = None
+                # Store the job data in the current_job before moving on
+                # to the assessments themselves.
+                current_job['level'] = level
+                current_job['location'] = location
+                current_job['programme'] = programme
+                if speciality:
+                    current_job['speciality'] = speciality
+                current_job['start-date'] = from_date.isoformat()
+                current_job['end-date'] = to_date.isoformat()
+            elif len(children) == 3:
+                if 'href' in children[2][0].attrib:
+                    href = children[2][0].attrib['href']
+                    assessment = getAssessment(session, href)
+                    current_dops.append(assessment)
+    return result
+
+if __name__ == '__main__':
+    print "Enter user credentials"
+    #username, password = getCredentials()
+    username = 'LJESmith'
+    password = 'gold2fish'
+    print "Validating user credentials"
+    session = signIn(username, password)
+    print "Getting DOPS assessments"
+    result = getDOPS(session)
+    output = {
+        'username': username,
+        'dops': result,
+    }
+    out_file = open(username.lower()+'.json', 'w')
+    json.dump(output, out_file, indent=2)
+    out_file.close()
+    print "Finished"

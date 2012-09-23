@@ -1,0 +1,184 @@
+{
+  "username": "LJESmith", 
+  "dops": [
+    {
+      "speciality": "Respiratory Medicine", 
+      "start-date": "2011-10-05T00:00:00", 
+      "level": "ST3", 
+      "dops_assessments": [
+        {
+          "trainee_year": "ST3", 
+          "assessor_position": "Consultant", 
+          "title": "DOPS: Summative: Potentially life threatening", 
+          "graded_areas": {}, 
+          "assessor_name": "Robin Johns", 
+          "comments": {}, 
+          "assessor_registration_number": "4443234", 
+          "assessor_email": "robin.johns@bhrhospitals.nhs.uk", 
+          "date": "2012-09-22T00:00:00"
+        }, 
+        {
+          "trainee_year": "ST3", 
+          "assessor_position": "Consultant", 
+          "trainee_gmc_number": "6154940", 
+          "trainee_surname": "Smith", 
+          "title": "DOPS: Respiratory: Bronchoscopy", 
+          "graded_areas": {}, 
+          "assessor_name": "Akeel Jubber", 
+          "comments": {
+            "agreed_action": "As above", 
+            "done_well": "Local anaesthesia technique and consenting", 
+            "suggestions": "To widen experience in the anatomy of the tracheo-bronchial tree"
+          }, 
+          "assessor_registration_number": "3046973", 
+          "assessor_email": "akeel.jubber@bhrhospitals.nhs.uk", 
+          "date": "2012-06-27T00:00:00", 
+          "trainee_forename": "Laura-Jane"
+        }, 
+        {
+          "assessor_position": "SpR", 
+          "trainee_gmc_number": "6154940", 
+          "trainee_surname": "Smith", 
+          "title": "DOPS", 
+          "graded_areas": {}, 
+          "assessor_name": "Dr Matthew Green", 
+          "comments": {
+            "agreed_action": "Gain more experience in siting central lines.", 
+            "suggestions": "Excellent communication. Patient and calm approach."
+          }, 
+          "assessor_registration_number": "7082958", 
+          "assessor_email": "matthew.green1@nhs.net", 
+          "date": "2012-05-04T00:00:00", 
+          "trainee_forename": "Laura-Jane"
+        }, 
+        {
+          "trainee_year": "ST3", 
+          "assessor_position": "Consultant", 
+          "trainee_gmc_number": "6154940", 
+          "trainee_surname": "Smith", 
+          "title": "DOPS: Respiratory: Chest Drain Insertion", 
+          "graded_areas": {}, 
+          "assessor_name": "Dr A S Jubber", 
+          "comments": {
+            "agreed_action": "To continue to acquire more expertise with the U/S assessment of pleural effusions", 
+            "done_well": "Competent with the insertion of the chest drain", 
+            "suggestions": "More experience with more complex cases"
+          }, 
+          "assessor_registration_number": "3046973", 
+          "assessor_email": "akeel.jubber@bhrhospitals.nhs.uk", 
+          "date": "2012-05-03T00:00:00", 
+          "trainee_forename": "Laura-Jane"
+        }
+      ], 
+      "location": "Queens Hospital", 
+      "end-date": "2012-10-02T00:00:00", 
+      "programme": "Core Medical Training (LON212)"
+    }, 
+    {
+      "start-date": "2011-04-06T00:00:00", 
+      "level": "CT2", 
+      "dops_assessments": [
+        {
+          "trainee_year": "CT2", 
+          "assessor_position": "SpR", 
+          "trainee_gmc_number": "6154940", 
+          "trainee_surname": "Smith", 
+          "title": "DOPS", 
+          "graded_areas": {}, 
+          "assessor_name": "Kirsty", 
+          "comments": {
+            "agreed_action": "more experience with ultra sound guided approach to insertion of cvcs", 
+            "suggestions": "careful preparation, awareness of complications and aseptic technique."
+          }, 
+          "assessor_registration_number": "6099122", 
+          "assessor_email": "kirstmcp@doctors.org.uk", 
+          "date": "2011-06-02T00:00:00", 
+          "trainee_forename": "Laura-Jane"
+        }
+      ], 
+      "location": "University College London Hospital", 
+      "end-date": "2011-08-02T00:00:00", 
+      "programme": "Core Medical Training (LON212)"
+    }, 
+    {
+      "speciality": "Haematology", 
+      "start-date": "2010-12-01T00:00:00", 
+      "level": "CT2", 
+      "dops_assessments": [
+        {
+          "trainee_year": "CT2", 
+          "assessor_position": "SpR", 
+          "trainee_gmc_number": "6154940", 
+          "trainee_surname": "Smith", 
+          "title": "DOPS", 
+          "graded_areas": {}, 
+          "assessor_name": "Monica Vega", 
+          "comments": {
+            "agreed_action": ".", 
+            "suggestions": "."
+          }, 
+          "assessor_registration_number": "7092051", 
+          "assessor_email": "monica.vega@uclh.nhs.co.uk", 
+          "date": "2011-03-29T00:00:00", 
+          "trainee_forename": "Laura-Jane"
+        }
+      ], 
+      "location": "University College London Hospital", 
+      "end-date": "2011-04-05T00:00:00", 
+      "programme": "Core Medical Training (LON212)"
+    }, 
+    {
+      "speciality": "Respiratory Medicine", 
+      "start-date": "2010-08-04T00:00:00", 
+      "level": "CT2", 
+      "dops_assessments": [
+        {
+          "trainee_year": "CT2", 
+          "assessor_position": "Consultant", 
+          "trainee_gmc_number": "6154940", 
+          "trainee_surname": "Smith", 
+          "title": "DOPS", 
+          "graded_areas": {}, 
+          "assessor_name": "Dr S Janes", 
+          "comments": {
+            "agreed_action": "A first procedure so clearly more required beofre proficient. Appears very capable young lady"
+          }, 
+          "assessor_registration_number": "3851122", 
+          "assessor_email": "s.janes@ucl.ac.uk", 
+          "date": "2010-11-16T00:00:00", 
+          "trainee_forename": "Laura-Jane"
+        }
+      ], 
+      "location": "University College London Hospital", 
+      "end-date": "2010-11-30T00:00:00", 
+      "programme": "Core Medical Training (LON212)"
+    }, 
+    {
+      "speciality": "Neurology", 
+      "start-date": "2010-04-07T00:00:00", 
+      "level": "ST1", 
+      "dops_assessments": [
+        {
+          "trainee_year": "ST1", 
+          "assessor_position": "SpR", 
+          "trainee_gmc_number": "6154940", 
+          "trainee_surname": "Smith", 
+          "title": "DOPS", 
+          "graded_areas": {}, 
+          "assessor_name": "Dr Niranjanan Nirmalananthan", 
+          "comments": {
+            "agreed_action": "None", 
+            "suggestions": "All"
+          }, 
+          "assessor_registration_number": "4735245", 
+          "assessor_email": "n.nirmalananthan@gmail.com", 
+          "date": "2010-07-02T00:00:00", 
+          "trainee_forename": "Laura-Jane"
+        }
+      ], 
+      "location": "National Hospital for Neurology and Neurosurgery", 
+      "end-date": "2010-08-03T00:00:00", 
+      "programme": "Core Medical Training (LON212)"
+    }
+  ]
+}
