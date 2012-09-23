@@ -10,7 +10,18 @@
           "trainee_year": "ST3", 
           "assessor_position": "Consultant", 
           "title": "DOPS: Summative: Potentially life threatening", 
-          "graded_areas": {}, 
+          "graded_areas": {
+            "Communication skills:": 3, 
+            "Consideration of patient/professionalism:": 3, 
+            "Technical ability:": 3, 
+            "Seeks help where appropriate:": 3, 
+            "Post procedure management:": 3, 
+            "Obtains informed consent:": 3, 
+            "Demonstrates appropriate preparation pre-procedure:": 3, 
+            "Aseptic technique:": 9, 
+            "Demonstrates understanding of indications, relevant anatomy, technique of procedure:": 3, 
+            "Appropriate analgesia or safe sedation:": 9
+          }, 
           "assessor_name": "Robin Johns", 
           "comments": {}, 
           "assessor_registration_number": "4443234", 
@@ -23,7 +34,24 @@
           "trainee_gmc_number": "6154940", 
           "trainee_surname": "Smith", 
           "title": "DOPS: Respiratory: Bronchoscopy", 
-          "graded_areas": {}, 
+          "graded_areas": {
+            "Indications for procedure:": 4, 
+            "Counselling and communication of results to patients/relatives:": 9, 
+            "Technical ability:": 4, 
+            "Local anaesthesia technique:": 5, 
+            "Sampling technique (biopsy & lavage):": 4, 
+            "Nasal/oral intubation:": 4, 
+            "Overall clinical competence with procedure:": 4, 
+            "Clinical judgement:": 4, 
+            "Diagnostic ability:": 4, 
+            "Handling and care of the instrument:": 4, 
+            "Awareness & management of complications:": 4, 
+            "Obtaining informed consent:": 5, 
+            "Drawing up appropriate management plan:": 4, 
+            "Appropriate analgesia or safe sedation:": 5, 
+            "Identification of normal/abnormal anatomy:": 4, 
+            "Professionalism and consideration:": 4
+          }, 
           "assessor_name": "Akeel Jubber", 
           "comments": {
             "agreed_action": "As above", 
@@ -40,7 +68,9 @@
           "trainee_gmc_number": "6154940", 
           "trainee_surname": "Smith", 
           "title": "DOPS", 
-          "graded_areas": {}, 
+          "graded_areas": {
+            "U/C": 5
+          }, 
           "assessor_name": "Dr Matthew Green", 
           "comments": {
             "agreed_action": "Gain more experience in siting central lines.", 
@@ -57,7 +87,22 @@
           "trainee_gmc_number": "6154940", 
           "trainee_surname": "Smith", 
           "title": "DOPS: Respiratory: Chest Drain Insertion", 
-          "graded_areas": {}, 
+          "graded_areas": {
+            "Awareness and management of complications:": 4, 
+            "Positioning and selection of appropriate (safe) site for insertion:": 5, 
+            "Overall clinical competence with procedure:": 5, 
+            "Handling and care of equipment and technical ability with insertion:": 5, 
+            "Securing drain:": 5, 
+            "Selection of appropriate environment and use of sterile technique:": 5, 
+            "Setting up and managing underwater seal/suction:": 5, 
+            "Local anaesthetic technique:": 4, 
+            "Indications for procedure/clinical judgement (in particular, is it really necessary?):": 5, 
+            "Obtaining informed consent:": 4, 
+            "Professionalism and consideration:": 5, 
+            "Appropriate analgesia or safe sedation:": 5, 
+            "Appropriate use of imaging:": 5, 
+            "Drawing up appropriate management plan:": 5
+          }, 
           "assessor_name": "Dr A S Jubber", 
           "comments": {
             "agreed_action": "To continue to acquire more expertise with the U/S assessment of pleural effusions", 
@@ -84,7 +129,9 @@
           "trainee_gmc_number": "6154940", 
           "trainee_surname": "Smith", 
           "title": "DOPS", 
-          "graded_areas": {}, 
+          "graded_areas": {
+            "U/C": 6
+          }, 
           "assessor_name": "Kirsty", 
           "comments": {
             "agreed_action": "more experience with ultra sound guided approach to insertion of cvcs", 
@@ -111,7 +158,9 @@
           "trainee_gmc_number": "6154940", 
           "trainee_surname": "Smith", 
           "title": "DOPS", 
-          "graded_areas": {}, 
+          "graded_areas": {
+            "U/C": 4
+          }, 
           "assessor_name": "Monica Vega", 
           "comments": {
             "agreed_action": ".", 
@@ -138,7 +187,9 @@
           "trainee_gmc_number": "6154940", 
           "trainee_surname": "Smith", 
           "title": "DOPS", 
-          "graded_areas": {}, 
+          "graded_areas": {
+            "U/C": 5
+          }, 
           "assessor_name": "Dr S Janes", 
           "comments": {
             "agreed_action": "A first procedure so clearly more required beofre proficient. Appears very capable young lady"
@@ -164,7 +215,9 @@
           "trainee_gmc_number": "6154940", 
           "trainee_surname": "Smith", 
           "title": "DOPS", 
-          "graded_areas": {}, 
+          "graded_areas": {
+            "U/C": 6
+          }, 
           "assessor_name": "Dr Niranjanan Nirmalananthan", 
           "comments": {
             "agreed_action": "None", 

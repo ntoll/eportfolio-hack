@@ -187,28 +187,65 @@ def getAssessment(session, url):
     if agreed:
         comments['agreed_action'] = agreed
     result['comments'] = comments
-    grade_table = assessment.xpath(DOPS['grades'])
-    rows = [r for r in grade_table[0].getchildren() if r.tag == "tr"]
-    if len(rows) <= 2:
-        grade_table = assessment.xpath(DOPS['grades2'])
-        rows = [r for r in grade_table[0].getchildren() if r.tag == "tr"]
     graded_areas = {}
     procedure = ''
     grade = None
-    import pdb; pdb.set_trace()
-    for row in rows:
-        proc_element = row.cssselect('span.fs_heading')
-        grade = getGrade(row)
-        if proc_element:
-            text = proc_element[0].text_content().strip()
-            if text:
-                procedure = ' '.join(text.replace('\r\n', '').split())
-            proc_element = []
-        if grade:
-            if grade and procedure:
-                graded_areas[k] = int(grade)
-            grade = None
-            procedure = ''
+    grade_table = assessment.xpath(DOPS['grades'])
+    rows = [r for r in grade_table[0].getchildren() if r.tag == "tr"]
+    """
+    Mother of all hacks... what a PIA. :-(
+    """
+    try:
+        rows = [r for r in grade_table[0].getchildren() if r.tag == "tr"]
+        for row in rows:
+            proc_element = row.cssselect('span.fs_heading')
+            grade = getGrade(row)
+            if proc_element:
+                if not proc_element[0].getchildren():
+                    text = proc_element[0].text_content().strip()
+                    if text:
+                        procedure = ' '.join(text.replace('\r\n', '').split())
+                proc_element = []
+            if grade:
+                if grade and procedure:
+                    graded_areas[procedure] = int(grade)
+                grade = None
+                procedure = ''
+    except:
+        pass
+
+    if not graded_areas:
+        grade_table = assessment.xpath(DOPS['grades2'])
+        rows = [r for r in grade_table[0].getchildren() if r.tag == "tr"]
+        for row in rows:
+            proc_element = row.cssselect('span.fs_heading')
+            grade = getGrade(row)
+            if proc_element:
+                text = proc_element[0].text_content().strip()
+                if text:
+                    procedure = ' '.join(text.replace('\r\n', '').split())
+                proc_element = []
+            if grade:
+                if grade and procedure:
+                    graded_areas[procedure] = int(grade)
+                grade = None
+                procedure = ''
+    else:
+        rows = [r for r in grade_table[0].getchildren() if r.tag == "tr"]
+        for row in rows:
+            proc_element = row.cssselect('span.fs_heading')
+            grade = getGrade(row)
+            if proc_element:
+                if not proc_element[0].getchildren():
+                    text = proc_element[0].text_content().strip()
+                    if text:
+                        procedure = ' '.join(text.replace('\r\n', '').split())
+                proc_element = []
+            if grade:
+                if grade and procedure:
+                    graded_areas[procedure] = int(grade)
+                grade = None
+                procedure = ''
     result['graded_areas'] = graded_areas
     """
     'level_rating': "/html/body/form[@id='aspnetForm']/div[@id='wrapper']/div[@id='content1']/div[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_formHolder']/div[9]/span[@class='fs_heading'][2]/table[@id='ctl00_ContentPlaceHolderMain_ucFormDetail_ucFormHandler_ctl00_ucDOPSFooter_nes_PracticeLevel']",
@@ -269,9 +306,7 @@ def getDOPS(session):
 
 if __name__ == '__main__':
     print "Enter user credentials"
-    #username, password = getCredentials()
-    username = 'LJESmith'
-    password = 'gold2fish'
+    username, password = getCredentials()
     print "Validating user credentials"
     session = signIn(username, password)
     print "Getting DOPS assessments"
