@@ -14,3 +14,8 @@ Usage::
     Username: dr_who
     Password:
     Scraping...
+
+The JSON file in the repository contains sample data so you can see what
+how the eportfolio data is structured. 
+
+*NB* - USED WITH CONSENT OF https://twitter.com/_elljay_
